@@ -67,6 +67,34 @@
 
 <blockquote>String matching algorithms have greatly influenced computer science and play an essential role in various real-world problems. It helps in performing time-efficient tasks in multiple domains. These algorithms are useful in the case of searching a string within another string. String matching is also used in the Database schema, Network systems.</blockquote><br>
 <a href="https://www.geeksforgeeks.org/applications-of-string-matching-algorithms/">Source</a><br>
+
+<pre>
+
+  int m, n;  
+    vector<long long> dp_before(n), dp_cur(n);  
+
+    long long C(int i, int j);  
+
+    // compute dp_cur[l], ... dp_cur[r] (inclusive)
+    void compute(int l, int r, int optl, int optr) {
+        if (l > r)
+            return;
+
+        int mid = (l + r) >> 1;
+        pair<long long, int> best = {LLONG_MAX, -1};
+
+        for (int k = optl; k <= min(mid, optr); k++) {
+            best = min(best, {(k ? dp_before[k - 1] : 0) + C(k, mid), k});
+        }
+
+        dp_cur[mid] = best.first;
+        int opt = best.second;
+
+        compute(l, mid - 1, optl, opt);
+        compute(mid + 1, r, opt, optr);
+    }
+    
+</pre>
   
 
 
